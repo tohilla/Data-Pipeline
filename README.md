@@ -75,8 +75,8 @@ This project is licensed under the [MIT License](LICENSE).
 
 For any questions or inquiries, please contact:
 
-- Your Name
-- Email: your-email@example.com
+- Aaron Tohill
+- Email: aaron.tohill@gmail.com
 
 ---
 
