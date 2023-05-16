@@ -1,3 +1,52 @@
+----------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------UPDATES 2023-16-05----------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Data Pipeline
+
+## Overview
+The Data Pipeline project is designed to extract data from a source database, perform business logic manipulations, and insert the transformed data into a destination database. This documentation covers the recent updates made to the codebase.
+
+## Code Changes
+
+### `Program.cs`
+- **`Main()` Method**: The main entry point of the application. It establishes connections to the source and destination databases, retrieves table names from the source database, and performs data extraction and insertion for each table.
+- **`GetTableNames()` Method**: Retrieves all table names from the source database using the `INFORMATION_SCHEMA.TABLES` query.
+- **`ManipulateAggregateData()` Method**: Performs any necessary data manipulation or transformation on the extracted aggregate data.
+
+### `DataInserter.cs`
+- **`InsertAggregates()` Method**: Inserts the list of aggregates into the destination database. It creates the destination table if it doesn't already exist, and uses `SqlBulkCopy` to efficiently insert the data.
+- **`CreateDestinationTable()` Method**: Creates the destination table for aggregates if it doesn't already exist. It checks for the existence of the table using the `INFORMATION_SCHEMA.TABLES` query and creates the table using the `CREATE TABLE` statement.
+- **`GenerateCreateTableCommand()` Method**: Generates the `CREATE TABLE` command dynamically based on the table name and data schema.
+- **`BulkInsertAggregates()` Method**: Performs bulk insertion of aggregates using `SqlBulkCopy`. It maps the list of aggregates to a `DataTable` and writes it to the destination table.
+
+### `DataExtractor.cs`
+- **`ExtractAggregates()` Method**: Extracts the aggregate data from the source database. It establishes a connection to the source database, retrieves the data from the "aggregates" table, and maps it to a list of `Aggregate` objects.
+
+### `Aggregate.cs`
+- Represents the data structure for an aggregate, with properties for `Values` and `Unnamed1`.
+
+## Usage
+To use the Data Pipeline, follow these steps:
+
+1. Update the connection strings in the `appsettings.json` file to point to the appropriate source and destination databases.
+
+2. Run the application. It will establish connections to the databases, retrieve table names, extract data from each table, perform necessary data manipulations, and insert the transformed data into the destination database.
+
+3. Monitor the console output and logs for information about the migration process. Any errors encountered during the process will be logged and displayed.
+
+## Dependencies
+- Microsoft.Extensions.Configuration: Used for configuration management.
+- System.Data.SqlClient: Provides access to SQL Server database functionality.
+- Serilog: Used for logging purposes.
+
+## Conclusion
+The recent code changes in the Data Pipeline project enable the extraction and insertion of aggregate data from the source to the destination database. The code now supports dynamic creation of the destination table if it doesn't exist and performs efficient bulk insertion of data. The application provides comprehensive logging to track the migration process and any encountered errors.
+
+----------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------ORIGINAL DOCUMENTATION----------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------
+
 # Data Migration Tool
 
 The Data Migration Tool is a custom-built data pipeline and migration tool developed using C# and the .NET Framework. It allows you to extract data from different databases (Microsoft SQL Server and Oracle 11g) and migrate it to another Microsoft SQL Server database.
@@ -67,17 +116,9 @@ The data migration tool utilizes the Serilog logging library. The log messages a
 
 Errors and exceptions during the data migration process are logged and can be found in the log file. If an error occurs, the tool will handle it gracefully and continue with the remaining tables.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
 ## Contact Information
 
 For any questions or inquiries, please contact:
 
 - Aaron Tohill
 - Email: aaron.tohill@gmail.com
-
----
-
-Feel free to customize this template based on your project's specific details and requirements.
